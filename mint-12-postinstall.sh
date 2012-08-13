@@ -9,7 +9,7 @@
 # Release notes:
 # 1.12.07: Premiere version du script
 #
-VERSION="1.12.07.1"
+VERSION="1.12.07.2"
 
 #=============================================================================
 # Liste des applications à installer: A adapter a vos besoins
