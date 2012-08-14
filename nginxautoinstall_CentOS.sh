@@ -1,15 +1,15 @@
 #!/bin/bash
 #
-# My own script to install/upgrade NGinx+PHP5_FPM+MemCached from sources
-# Mon script d'installation/maj de NGinx+PHP5_FPM+MemCached depuis les sources
-#
-# Nicolargo - 06/2012
+# My own script to install/upgrade NGinx+PHP5_FPM+MemCached from sources on CentOS
+# Mon script d'installation/maj de NGinx+PHP5_FPM+MemCached depuis les sources sur CentOS
+# 
+# Alexandre Aury - 08/2012
 # LGPL
 #
 # Syntaxe: # su - -c "./nginxautoinstall.sh"
-# Syntaxe: or # sudo ./nginxautoinstall.sh
+# 
 #
-VERSION="1.48"
+VERSION="1.01"
 
 ##############################
 # Version de NGinx a installer
@@ -27,7 +27,7 @@ NGINX_MODULES=" --with-http_dav_module --http-client-body-temp-path=/var/lib/ngi
 # Variables globales
 #-------------------
 
-APT_GET="apt-get -q -y --force-yes"
+YUM_EXEC="yum 'q -y"
 WGET="wget --no-check-certificate"
 DATE=`date +"%Y%m%d%H%M%S"`
 LOG_FILE="/tmp/nginxautoinstall-$DATE.log"
@@ -87,52 +87,19 @@ fi
 
 displaytitle "Install prerequisites"
 
-# R√©cup√©ration GnuPG key pour DotDeb
-grep -rq '^deb\ .*dotdeb' /etc/apt/sources.list.d/*.list /etc/apt/sources.list > /dev/null 2>&1
-if [ $? -ne 0 ]
-then
-  displayandexec "Install the DotDeb repository" "wget http://www.dotdeb.org/dotdeb.gpg ; cat dotdeb.gpg | apt-key add - ; rm -f dotdeb.gpg"
-fi
-
-displayandexec "Install lsb_release" "apt-get install lsb-release"
-if [ `lsb_release -sc` == "squeeze" ]
-then
-  # Squeeze
-
-  # Ajout DotDeb package (http://www.dotdeb.org/)
-  grep -rq '^deb\ .*packages\.dotdeb' /etc/apt/sources.list.d/*.list /etc/apt/sources.list > /dev/null 2>&1
-  if [ $? -ne 0 ]
-  then  
-    echo -e "\n## DotDeb Package\ndeb http://packages.dotdeb.org squeeze all\ndeb-src http://packages.dotdeb.org squeeze all\n" >> /etc/apt/sources.list
-  fi
-
-else
-  # Lenny and older
-
-  # Ajout DotDeb package (http://www.dotdeb.org/)
-  grep -rq '^deb\ .*packages\.dotdeb' /etc/apt/sources.list.d/*.list /etc/apt/sources.list > /dev/null 2>&1
-  if [ $? -ne 0 ]
-  then  
-    echo -e "\n## DotDeb Package\ndeb http://packages.dotdeb.org oldstable all\ndeb-src http://packages.dotdeb.org oldstable all\n" >> /etc/apt/sources.list
-  fi
-
-  # Ajout DotDeb PHP 5.3 (http://www.dotdeb.org/)
-  grep -rq '^deb\ .*php53\.dotdeb' /etc/apt/sources.list.d/*.list /etc/apt/sources.list > /dev/null 2>&1
-  if [ $? -ne 0 ]
-  then
-    echo -e "\n## DotDeb PHP 5.3\ndeb http://php53.dotdeb.org oldstable all\ndeb-src http://php53.dotdeb.org oldstable all\n" >> /etc/apt/sources.list
-  fi
-
-fi
-
+# Instalation des dépendances
+displayandexec "Ajout du depot EPEL" rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-7.noarch.rpm
+displayandexec "Ajout du depot REMI" rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
 # MaJ des depots
-displayandexec "Update the repositories list" $APT_GET update
+displayandexec "Update the repositories list" $YUM_EXEC update
 
 # Pre-requis
-displayandexec "Install development tools" $APT_GET install build-essential libpcre3-dev libssl-dev zlib1g-dev
-displayandexec "Install PHP 5" $APT_GET install php5-cli php5-common php5-mysql php5-suhosin php5-fpm php-pear php5-apc php5-gd php5-curl
-displayandexec "Install MemCached" $APT_GET install libcache-memcached-perl php5-memcache memcached
-displayandexec "Install Redis" $APT_GET install redis-server php5-redis
+displayandexec "Install development tools" $YUM_EXEC install redhat-lsb
+displayandexec "Install development tools" $YUM_EXEC install pcre-devel zlib-devel openssl-devel
+displayandexec "Install PHP 5" $YUM_EXEC --enablerepo=remi install php-cli php-common php-mysql php-suhosin php-fpm php-pear php-pecl-apc php-gd php-curl
+displayandexec "Install MemCached" $YUM_EXEC install  php-pecl-memcached php-pecl-memcache memcached
+#libcache-memcached-perl
+displayandexec "Install Redis" $YUM_EXEC install redis-server php5-redis
 
 displaytitle "Install NGinx version $NGINX_VERSION"
 
