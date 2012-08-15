@@ -88,8 +88,8 @@ fi
 displaytitle "Install prerequisites"
 
 # Instalation des dépendances
-displayandexec "Ajout du depot EPEL" rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-7.noarch.rpm
-displayandexec "Ajout du depot REMI" rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm
+displayandexec "Ajout du depot EPEL" "rpm -Uvh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-7.noarch.rpm"
+displayandexec "Ajout du depot REMI" "rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-6.rpm"
 # MaJ des depots
 displayandexec "Update the repositories list" $YUM_EXEC update
 
@@ -203,3 +203,4 @@ echo "--------------------------------------------------------------------------
 echo ""
 
 # Fin du script
+https://raw.github.com/soukhoi47/bash/master/nginxautoinstall_CentOS.sh
