@@ -156,7 +156,7 @@ then
 fi
 
 # Download the init script
-displayandexec "Install the NGinx init script" "$WGET https://raw.github.com/nicolargo/debianpostinstall/master/nginx ; mv nginx /etc/init.d/ ; chmod 755 /etc/init.d/nginx ; /usr/sbin/update-rc.d -f nginx defaults"
+displayandexec "Install the NGinx init script" "$WGET https://raw.github.com/nicolargo/debianpostinstall/master/nginx ; mv nginx /etc/init.d/ ; chmod 755 /etc/init.d/nginx ; /sbin/chkconfig --add nginx ;  /sbin/chkconfig nginx on "
 
 # Log file rotate
 cat > /etc/logrotate.d/nginx <<EOF
