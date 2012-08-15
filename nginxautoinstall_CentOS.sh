@@ -203,4 +203,3 @@ echo "--------------------------------------------------------------------------
 echo ""
 
 # Fin du script
-https://raw.github.com/soukhoi47/bash/master/nginxautoinstall_CentOS.sh
