@@ -99,8 +99,20 @@ displayandexec "Install development tools" $YUM_EXEC install pcre-devel zlib-dev
 displayandexec "Install PHP 5" $YUM_EXEC --enablerepo=remi install php-cli php-common php-mysql php-suhosin php-fpm php-pear php-pecl-apc php-gd php-curl
 displayandexec "Install MemCached" $YUM_EXEC install  php-pecl-memcached php-pecl-memcache memcached
 #libcache-memcached-perl
-displayandexec "Install Redis" $YUM_EXEC install redis-server php5-redis
-
+#displayandexec "Install Redis" $YUM_EXEC --enablerepo=epel install redis-server
+#displayandexec "Download PHP-Redis" git clone https://github.com/nicolasff/phpredis.git
+#displayandexec "Install PHP-Redis" cd phpredis
+#	git clone https://github.com/nicolasff/phpredis.git
+#	phpize
+#	./configure
+#	make
+#	make install
+#
+#	cd /etc/php.d 
+#	sortie='redis.ini'
+#	echo 'extension=redis.so' > $sortie
+	
+	
 displaytitle "Install NGinx version $NGINX_VERSION"
 
 # Telechargement des fichiers
@@ -163,10 +175,10 @@ displaytitle "Start processes"
 # Start PHP5-FPM and NGinx
 if [ $TAGINSTALL == 1 ]
 then
-	displayandexec "Start PHP 5" /etc/init.d/php5-fpm start
+	displayandexec "Start PHP 5" /etc/init.d/php-fpm start
 	displayandexec "Start NGinx" /etc/init.d/nginx start
 else
-	displayandexec "Restart PHP 5" /etc/init.d/php5-fpm restart
+	displayandexec "Restart PHP 5" /etc/init.d/php-fpm restart
 	displayandexec "Restart NGinx" "killall nginx ; /etc/init.d/nginx start"
 fi
 
@@ -187,10 +199,6 @@ echo "iptables -A OUTPUT -o lo -s localhost -d localhost -j ACCEPT"
 echo "iptables -A OUTPUT -m state --state RELATED,ESTABLISHED -j ACCEPT"
 echo "iptables -A INPUT  -p tcp --dport http -j ACCEPT"
 echo ""
-echo "If you want to manage your PHP session with Redis,"
-echo "just add this two line in the /etc/php5/fpm/php.ini file:"
-echo "  session.save_handler = redis"
-echo "  session.save_path = \"tcp://127.0.0.1:6379?weight=1\""
 echo "------------------------------------------------------------------------------"
 echo ""
 
