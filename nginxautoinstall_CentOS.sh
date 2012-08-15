@@ -27,7 +27,7 @@ NGINX_MODULES=" --with-http_dav_module --http-client-body-temp-path=/var/lib/ngi
 # Variables globales
 #-------------------
 
-YUM_EXEC="yum 'q -y"
+YUM_EXEC="yum -q -y"
 WGET="wget --no-check-certificate"
 DATE=`date +"%Y%m%d%H%M%S"`
 LOG_FILE="/tmp/nginxautoinstall-$DATE.log"
@@ -69,7 +69,7 @@ displayandexec() {
   sh -c "$*" >> $LOG_FILE 2>&1
   local ret=$?
   if [ $ret -ne 0 ]; then
-    echo -e "\r\e[0;31m   [ERROR]\e[0m $message"
+    echo -e "\r\e[0;31m   [ERROR]\e[0m $message $ret"
   else
     echo -e "\r\e[0;32m      [OK]\e[0m $message"
   fi
