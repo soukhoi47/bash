@@ -1,12 +1,12 @@
 #!/bin/bash
 #
-# My own script to install/upgrade NGinx+PHP5_FPM+MemCached from sources on CentOS
-# Mon script d'installation/maj de NGinx+PHP5_FPM+MemCached depuis les sources sur CentOS
+# Script to install/upgrade NGinx+PHP5_FPM+MemCached from sources on CentOS
+# Script d'installation/maj de NGinx+PHP5_FPM+MemCached depuis les sources sur CentOS
 # 
 # Alexandre Aury - 08/2012
 # LGPL
 #
-# Syntaxe: # su - -c "./nginxautoinstall.sh"
+# Syntaxe: # su - -c "./nginxautoinstall_CentOS.sh"
 # 
 #
 VERSION="1.01"
