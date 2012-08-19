@@ -96,8 +96,9 @@ displayandexec "Update the repositories list" $YUM_EXEC update
 # Pre-requis
 displayandexec "Install development tools" $YUM_EXEC install redhat-lsb
 displayandexec "Install development tools" $YUM_EXEC install pcre-devel zlib-devel openssl-devel
-displayandexec "Install PHP 5" $YUM_EXEC --enablerepo=remi install php-cli php-common php-mysql php-suhosin php-fpm php-pear php-pecl-apc php-gd php-curl
+displayandexec "Install PHP 5" $YUM_EXEC --enablerepo=remi install php-cli php-common php-mysql php-suhosin php-fpm php-pear php-pecl-apc php-gd php-curl php-mbstring 
 displayandexec "Install MemCached" $YUM_EXEC install  php-pecl-memcached php-pecl-memcache memcached
+
 #libcache-memcached-perl
 #displayandexec "Install Redis" $YUM_EXEC --enablerepo=epel install redis-server
 #displayandexec "Download PHP-Redis" git clone https://github.com/nicolasff/phpredis.git
